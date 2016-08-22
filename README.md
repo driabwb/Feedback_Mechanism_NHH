@@ -6,4 +6,5 @@
   3. `npm install express`
 
 ## Run
-  1. node index.js
+  1. Start Mongo
+  2. `node index.js`
