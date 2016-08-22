@@ -1,0 +1,25 @@
+{
+  "name": "feedback_mechanism_nhh",
+  "version": "1.0.0",
+  "description": "## Build instructions   1. Have node.js installed   2. Enter the folder for this repository   3. `npm install express`",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongodb": "^2.2.7",
+    "mongoskin": "^2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/driabwb/Feedback_Mechanism_NHH.git"
+  },
+  "author": "David Baird",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/driabwb/Feedback_Mechanism_NHH/issues"
+  },
+  "homepage": "https://github.com/driabwb/Feedback_Mechanism_NHH#readme"
+}
