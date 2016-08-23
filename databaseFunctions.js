@@ -25,6 +25,17 @@ var dbPageRatingCollection = "PageRatings";
 */
 exports.addRating = function (rating, webpage, callback){
     // Do Validation, but not sanitization
-    // TODO: Validation of inputs
-    db.collection(dbPageRatingCollection).insert({'webpage': webpage, 'rating': rating}, callback);  
+    if(1>rating || rating>5){
+	callback("Rating out of range:" + rating.toString(), null);
+    }
+    db.collection(dbPageRatingCollection).insert({'webpage': webpage, 'rating': rating}, function(err, result){
+	    if(!err){
+		resultObj = {};
+		resultObj.webpage = result.ops[0].webpage;
+		resultObj.rating = result.ops[0].rating;
+		callback(err, resultObj);
+	    }else{
+		callback(err, result);
+	    }
+	});  
 };
