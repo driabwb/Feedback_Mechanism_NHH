@@ -10,15 +10,8 @@ var app = express();
 // Cross-site Scripting Sanitizer
 var xss = require('xss');
 
-// Connect to the MongoDB database
-// Currently connects to the Test database
-var db = require('mongoskin').db('mongodb://localhost:27017/Test');
-var dbCollection = 'Test';
-var dbPageRatingCollection = "PageRatings"
-
-// The form types
-var ratingType = "rating";
-var shortAnswerType = "shortAnswer";
+// Database Related Functions
+var db = require('./databaseFunctions.js');
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -32,12 +25,10 @@ app.get('/', function(req, res){
 
 // Accept data for a basic page rating
 app.post('/addRating', function (req, res){
-	var dbObject = {};
-	dbObject.inputType = ratingType;
-	dbObject.Name = xss(req.body.Name);
-	dbObject.Rating = xss(req.body.Rating); // Validate that this is a number b/t 1-5
-	dbObject.WebPage = xss(req.body.WebPage); // Validate this is one of our pages?
-	db.collection(dbPageRatingCollection).insert(dbObject);
+	// Sanitization is expected to be done here validation can be also
+	rating = xss(req.body.Rating); // Validate that this is a number b/t 1-5
+	page = xss(req.body.WebPage); // Validate this is one of our pages?
+	db.addRating(rating, page);
 	// Should update to send different responses for success/failure.
 	res.send(req.body);
     });
