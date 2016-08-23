@@ -5,9 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "chai": "^3.5.0",
     "express": "^4.14.0",
+    "mocha": "^3.0.2",
     "mongodb": "^2.2.7",
     "mongoskin": "^2.1.0",
+    "request": "^2.74.0",
     "xss": "^0.2.13"
   },
   "devDependencies": {},

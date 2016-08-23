@@ -20,12 +20,11 @@ var dbPageRatingCollection = "PageRatings";
   addRating: Number, String -> Boolean
     This function takes a rating (1-5) and a page url and attempts to store the data
       in the database.
-    On successful entry returns true.
-    On failed entry returns false
-    If 1 > rating or 5 < rating returns false
+    On successful entry calls callback(null, inserted_object)
+    On failure calls callback("Error Message", null)
 */
-exports.addRating = function (rating, webpage){
+exports.addRating = function (rating, webpage, callback){
     // Do Validation, but not sanitization
     // TODO: Validation of inputs
-    db.collection(dbPageRatingCollection).insert({'webpage': webpage, 'rating': rating});  
+    db.collection(dbPageRatingCollection).insert({'webpage': webpage, 'rating': rating}, callback);  
 };

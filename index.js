@@ -28,9 +28,16 @@ app.post('/addRating', function (req, res){
 	// Sanitization is expected to be done here validation can be also
 	rating = xss(req.body.Rating); // Validate that this is a number b/t 1-5
 	page = xss(req.body.WebPage); // Validate this is one of our pages?
-	db.addRating(rating, page);
+	db.addRating(rating, page, function(err, result){
+		    if(!err){
+			res.send(result);
+		    }else{
+			console.log(err);
+			res.send(err);
+		    }
+		});
 	// Should update to send different responses for success/failure.
-	res.send(req.body);
+	
     });
 
 // If a user asks for something with a GET Request try to give it to them from the /static_pages/ directory.
