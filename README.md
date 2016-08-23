@@ -3,7 +3,7 @@
 ## Build instructions
   1. Have node.js installed
   2. Enter the folder for this repository
-  3. `npm install express`
+  3. `npm install`
 
 ## Run
   1. Start Mongo
