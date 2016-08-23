@@ -14,6 +14,7 @@ var xss = require('xss');
 // Currently connects to the Test database
 var db = require('mongoskin').db('mongodb://localhost:27017/Test');
 var dbCollection = 'Test';
+var dbPageRatingCollection = "PageRatings"
 
 // The form types
 var ratingType = "rating";
@@ -36,7 +37,8 @@ app.post('/addRating', function (req, res){
 	dbObject.Name = xss(req.body.Name);
 	dbObject.Rating = xss(req.body.Rating); // Validate that this is a number b/t 1-5
 	dbObject.WebPage = xss(req.body.WebPage); // Validate this is one of our pages?
-	db.collection(dbCollection).insert(dbObject);
+	db.collection(dbPageRatingCollection).insert(dbObject);
+	// Should update to send different responses for success/failure.
 	res.send(req.body);
     });
 
