@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 //var upload = multer();
 var app = express();
 
+// Cross-site Scripting Sanitizer
 var xss = require('xss');
 
 // Connect to the MongoDB database
@@ -28,10 +29,13 @@ app.get('/', function(req, res){
 	res.redirect('/index.html');
     });
 
+// Accept data for a basic page rating
 app.post('/addRating', function (req, res){
-	var dbObject = req.body;
+	var dbObject = {};
 	dbObject.inputType = ratingType;
-	dbObject.Name = xss(dbObject.Name);
+	dbObject.Name = xss(req.body.Name);
+	dbObject.Rating = xss(req.body.Rating); // Validate that this is a number b/t 1-5
+	dbObject.WebPage = xss(req.body.WebPage); // Validate this is one of our pages?
 	db.collection(dbCollection).insert(dbObject);
 	res.send(req.body);
     });
