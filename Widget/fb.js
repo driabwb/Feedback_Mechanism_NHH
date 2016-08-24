@@ -51,7 +51,7 @@ function main() {
         var css2 = $("<link>", { rel: "stylesheet", type: "text/css", href: "bootstrap.css" }).appendTo('head');          
 
         /******* Load HTML *******/
-        var url = "http://localhost:3003/feedback-form.html";
+        var url = "feedback-form.html";
         $.get(url,function(data) {
           $('#fb-container').html(data);
         });
