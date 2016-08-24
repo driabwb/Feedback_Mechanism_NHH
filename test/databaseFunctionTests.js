@@ -4,6 +4,7 @@ var assert = require("chai").assert;
 var dbFunc = require("../databaseFunctions.js");
 var db = require('mongoskin').db('mongodb://localhost:27017/Test');
 var dbPageRatingCollection = "PageRatings";
+var dbTaskQueryCollection = "TaskQueries";
 
 describe("Database Tests", function(){
 
@@ -140,6 +141,72 @@ describe("Database Tests", function(){
 				    });
 			    });
 		    }); // End Insertion Tests
+		describe("Last N Retrieval", function(){
+			before(function(done){
+				db.collection(dbTaskQueryCollection).remove({});
+				db.collection(dbTaskQueryCollection).insert([{'task': "I'm Unit Testing!!!", 'comment': "My test seems to be failing."},
+									     {'task': "Test2", 'comment': "Yipee ki-yay"},
+									     {'task': "Look Ma no honds", 'comment': "and all our yesterdays"},
+									     {'task': "She should have died", 'comment': "have lighted fools"},
+									     {'task': "hereafter there would", 'comment': "the way to dusty"},
+									     {'task': "have been time for ", 'comment': "death out out brief"},
+									     {'task': "such a word tomorrow and", 'comment': "candle life is but"},
+									     {'task': "tomorrow and tomorrow", 'comment': "a walking shadow"},
+									     {'task': "creeps in this petty", 'comment': "a poor player's that"},
+									     {'task': "pace from day to day", 'comment': "struts and frets his hour"},
+									     {'task': "to the last syllable", 'comment': "upon the stage and then is heard no more"},
+									     {'task': "of recorded time", 'comment': "it is a tale told by and idiot full of sound and fury signifying nothing. - Shakespeare"}], 
+									    function(err, res){
+										done();
+									    });
+			    });
+			it("can pull the last 3 entries", function(done){
+				dbFunc.getTaskQuery(3, function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, [{'task': "pace from day to day", 'comment': "struts and frets his hour"},
+								  {'task': "to the last syllable", 'comment': "upon the stage and then is heard no more"},
+								  {'task': "of recorded time", 'comment': "it is a tale told by and idiot full of sound and fury signifying nothing. - Shakespeare"}]);
+					done();
+				    });
+			    });
+			it("can pull the last 1 entries", function(done){
+				dbFunc.getTaskQuery(1, function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, [{'task': "of recorded time", 'comment': "it is a tale told by and idiot full of sound and fury signifying nothing. - Shakespeare"}]);
+					done();
+				    });
+			    });
+
+			it("can pull the last 0 entries", function(done){
+				dbFunc.getTaskQuery(0, function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, []);
+					done();
+				    });
+			    });
+			it("cannot pull negative entries", function(done){
+				dbFunc.getTaskQuery(-1, function(err, result){
+					assert.equal(err, "You must request 0 or more task queries");
+					done();
+				    });
+			    });
+			it("can pull the last 10 entries", function(done){
+				dbFunc.getTaskQuery(10, function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, [{'task': "Look Ma no honds", 'comment': "and all our yesterdays"},
+								  {'task': "She should have died", 'comment': "have lighted fools"},
+								  {'task': "hereafter there would", 'comment': "the way to dusty"},
+								  {'task': "have been time for ", 'comment': "death out out brief"},
+								  {'task': "such a word tomorrow and", 'comment': "candle life is but"},
+								  {'task': "tomorrow and tomorrow", 'comment': "a walking shadow"},
+								  {'task': "creeps in this petty", 'comment': "a poor player's that"},
+								  {'task': "pace from day to day", 'comment': "struts and frets his hour"},
+								  {'task': "to the last syllable", 'comment': "upon the stage and then is heard no more"},
+								  {'task': "of recorded time", 'comment': "it is a tale told by and idiot full of sound and fury signifying nothing. - Shakespeare"}]);
+					done();
+				    });
+			    });
+		    });
 	    });// End Task Query Tests
 //-------------------------------------------------------------
 // End Database Tests
