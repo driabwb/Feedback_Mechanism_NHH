@@ -67,8 +67,39 @@ describe("Database Tests", function(){
 				    });
 			    });
 		    });
-		describe("Rating Counts for the whole website", function(){
+		describe("Average rating by page", function(){
 			before(function(done){
+				// This clears the entire database
+				db.collection(dbPageRatingCollection).remove({});
+				// Add some test ratings
+				db.collection(dbPageRatingCollection).insert([{'webpage': "xkcd", 'rating': 5}, 
+									      {'webpage': "xkcd", 'rating': 4},
+									      {'webpage': "smbc", 'rating': 2},
+									      {'webpage': "smbc", 'rating': 4},
+									      {'webpage': "berk", 'rating': 2},
+									      {'webpage': "berk", 'rating': 1},
+									      {'webpage': "smbc", 'rating': 1},
+									      {'webpage': "xkcd", 'rating': 3},
+									      {'webpage': "berk", 'rating': 4}], 
+									      function(err,res){done();});
+			    });
+			it("Performs a count for all pages if given an empty array", function(done){
+				dbFunc.getPageRating([], function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, {'xkcd': 4, 'smbc': 7/3, 'berk': 7/3});
+					done();
+				    });
+			    });
+			it("Performs a count for only the specified page w/ 1 elt array", function(done){
+				dbFunc.getPageRating(['xkcd'], function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, {'xkcd': 4});
+					done();
+				    });
+			    });
+		    });
+		describe("Rating Counts for the whole website", function(){
+			 before(function(done){
 				// This clears the entire database
 				db.collection(dbPageRatingCollection).remove({});
 				// Add some test ratings

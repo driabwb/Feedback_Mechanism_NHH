@@ -81,6 +81,67 @@ exports.getWebsiteRatingCounts = function(callback){
 };
 
 /*
+  getAllPageRating:
+    This is a helper function for getPageRating which fetches average ratings for all pages in the site
+    On Success the function calls the callback function with a null err string and an object {<page_name>: <rating>}
+    On Failure the function calls the callback function with and error string in err
+ */
+
+var getAllPageRating = function(callback){
+    db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': '$webpage', 'average': {'$avg': '$rating'}}}], function(err, result){
+	    if(!err){
+		retObject = {};
+		for(avgs of result){
+		    retObject[avgs._id] = avgs.average;
+		}
+		callback(err, retObject);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  getPageRatingsForList:
+    This is a helper function for getPageRating which fetches average ratings for the webpages in the pages array
+    On Success the function calls the callback function with a null err string and an object {<page_name>: <rating>}
+    On Failure the function calls the callback function with and error string in err
+ */
+
+var getPageRatingsForList = function(pages, callback){
+    db.collection(dbPageRatingCollection).aggregate([{'$match': { 'webpage': { '$in': pages } } }, {'$group': {'_id': '$webpage', 'average': {'$avg': '$rating'}}}], 
+						    function(err, result){
+							if(!err){
+							    retObject = {};
+							    for(avgs of result){
+								retObject[avgs._id] = avgs.average;
+							    }
+							    callback(err, retObject);
+							}else{
+							    console.log(err);
+							    callback(err, result);
+							}
+						    });
+};
+
+/*
+  getPageRating:
+    This function get the page ratings for any (specified in the pages array) or all pages 
+      (specified with a empty pages array) in the site.
+    On Success the function calls the callback function with a null err string and an object {<page_name>: <rating>}
+    On Failure the function calls the callback function with and error string in err
+ */
+
+exports.getPageRating = function(pages, callback){
+    if(0 === pages.length){
+	getAllPageRating(callback);
+    }else{
+	getPageRatingsForList(pages, callback);
+    }
+};
+
+/*
   addTaskQuery:
     This function takes two strings (already sanitized) and attempts to add them to the Database
     On Success the function calls the callback with a null err and the inserted object in result.
