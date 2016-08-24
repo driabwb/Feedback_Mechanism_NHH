@@ -28,6 +28,7 @@ exports.addRating = function (rating, webpage, callback){
     // Do Validation, but not sanitization
     if(1>rating || rating>5){
 	callback("Rating out of range:" + rating.toString(), null);
+	return;
     }
     db.collection(dbPageRatingCollection).insert({'webpage': webpage, 'rating': rating}, function(err, result){
 	    if(!err){
@@ -158,4 +159,25 @@ exports.addTaskQuery = function(task, comment, callback){
 		callback(err, result);
 	    }
 	});
+};
+
+exports.getTaskQuery = function(quantity, callback){
+    if(0 > quantity){
+	callback("You must request 0 or more task queries", null);
+    }else if(0 == quantity){
+	callback(null, []);
+    }else{
+	db.collection(dbTaskQueryCollection).find().sort( {"_id": -1} ).limit(quantity).toArray(function(err, result){
+		if(!err){
+		    retArray = [];
+		    for(res of result){
+			newObj = {'task': res.task, 'comment': res.comment};
+			retArray.push(newObj);
+		    }
+		    callback(err, retArray.reverse());
+		}else{
+		    callback(err, result);
+		}
+	    });
+    }
 };
