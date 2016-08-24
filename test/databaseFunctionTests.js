@@ -2,6 +2,8 @@
 
 var assert = require("chai").assert;
 var dbFunc = require("../databaseFunctions.js");
+var db = require('mongoskin').db('mongodb://localhost:27017/Test');
+var dbPageRatingCollection = "PageRatings";
 
 describe("Database Tests", function(){
 
@@ -46,6 +48,24 @@ describe("Database Tests", function(){
 				    });
 			    });
 		    }); //End Insertion
+		describe("Average for whole website", function(){
+			before(function(done){
+				// This clears the entire database
+				db.collection(dbPageRatingCollection).remove({});
+				// Add some test ratings
+				db.collection(dbPageRatingCollection).insert([{'webpage': "xkcd", 'rating': 5}, 
+									      {'webpage': "xkcd", 'rating': 4},
+									      {'webpage': "smbc", 'rating': 4},
+									      {'webpage': "smbc", 'rating': 4}], 
+									      function(err,res){done();});
+			    });
+			it("Averages all ratings", function(done){
+				dbFunc.getWebsiteRating(function(err, result){
+					assert.strictEqual(result, 17/4);
+					done();
+				    });
+			    });
+		    });
 	    }); // End Rating Tests
 
 //-------------------------------------------------------------
