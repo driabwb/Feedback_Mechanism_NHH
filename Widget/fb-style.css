@@ -1,6 +1,28 @@
 /*This file is for the feedback style*/
 
 .fb-div {
-        background-color: lightblue;
-        display: none;
+    background-color: #e3e3e3;
+    display: none;
+    height: 400px;
+    padding-top: 10px;
+    padding-left: 10px;
+  	padding-right: 10px;
+
+}
+
+.btn-close{
+
+	right: 5px;
+	position: absolute;
+}
+
+.main-label{
+	  font-size: 20px;
+	  font-family: Arial;
+	  font-weight: bold;
+}
+
+.sub-label{
+	  font-size: 16px;
+	  font-family: Arial;
 }
