@@ -1,0 +1,35 @@
+.placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+}
+.img {
+    vertical-align: middle;
+     border-radius: 50%;
+}
+.round {
+    border-radius: 50%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+div.background {
+  background: url(circle-dashed-6-xxl.png) repeat;
+  border: 2px solid black;
+}
+
+div.transbox {
+  margin: 30px;
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+div.transbox p {
+  margin: 5%;
+  font-weight: bold;
+  color: #000000;
+}
