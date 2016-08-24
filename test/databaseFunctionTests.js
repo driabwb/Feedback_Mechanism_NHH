@@ -97,6 +97,13 @@ describe("Database Tests", function(){
 					done();
 				    });
 			    });
+			it("Performs a count for only the specified page w/ 2 elt array", function(done){
+				dbFunc.getPageRating(['smbc', 'xkcd'], function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, {'smbc': 7/3, 'xkcd': 4});
+					done();
+				    });
+			    });
 		    });
 		describe("Rating Counts for the whole website", function(){
 			 before(function(done){
