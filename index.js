@@ -51,7 +51,7 @@ app.post('/addTaskQuery', function (req, res){
 		    res.send(err);
 		}
 	    });
-    }
+    });
 
 // If a user asks for something with a GET Request try to give it to them from the /static_pages/ directory.
 app.get('/:fileName', function (req, res){
