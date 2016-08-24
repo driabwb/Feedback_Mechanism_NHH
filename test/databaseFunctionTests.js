@@ -12,7 +12,7 @@ describe("Database Tests", function(){
 	describe("Ratings", function(){
 // Insert Ratings
 		describe("Insertion", function(){
-			it("inserts valid inputs into the MongoDB and returns true", function(done){
+			it("inserts valid inputs into the MongoDB", function(done){
 				dbFunc.addRating(3, "http://foo.bar/", function(err, result){
 					assert.isTrue(!err);
 					assert.deepEqual(result, {"webpage": "http://foo.bar/", "rating": 3});
@@ -61,13 +61,24 @@ describe("Database Tests", function(){
 			    });
 			it("Averages all ratings", function(done){
 				dbFunc.getWebsiteRating(function(err, result){
+					assert.isTrue(!err);
 					assert.strictEqual(result, 17/4);
 					done();
 				    });
 			    });
 		    });
 	    }); // End Rating Tests
-
+	describe("Task Query Tests", function(){
+		describe("Insertion", function(){
+			it("Can insert an entry", function(done){
+				dbFunc.addTaskQuery("I'm Unit Testing!!!", "My test seems to be failing.", function(err,result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, {'task': "I'm Unit Testing!!!", 'comment': "My test seems to be failing."});
+					done();
+				    });
+			    });
+		    }); // End Insertion Tests
+	    });// End Task Query Tests
 //-------------------------------------------------------------
 // End Database Tests
     });

@@ -8,6 +8,7 @@
 var db = require('mongoskin').db('mongodb://localhost:27017/Test');
 var dbCollection = 'Test';
 var dbPageRatingCollection = "PageRatings";
+var dbTaskQueryCollection = "TaskQueries";
 
 // ---------------------------------------------------------------
 
@@ -49,5 +50,25 @@ exports.addRating = function (rating, webpage, callback){
 exports.getWebsiteRating = function(callback){
     db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': null, 'average': {'$avg': '$rating'}}}], function(err,result){
 	    callback(err, result[0].average);
+	});
+};
+
+
+/*
+  addTaskQuery:
+    This function takes two strings (already sanitized) and attempts to add them to the Database
+    On Success the function calls the callback with a null err and the inserted object in result.
+    On Failure the function calls the callback with an error string in err. 
+ */
+exports.addTaskQuery = function(task, comment, callback){
+    db.collection(dbTaskQueryCollection).insert({'task': task, 'comment': comment}, function(err, result){
+	    if(!err){
+		retObject = {};
+		retObject.task = result.ops[0].task;
+		retObject.comment = result.ops[0].comment;
+		callback(err, retObject);
+	    }else{
+		callback(err, result);
+	    }
 	});
 };
