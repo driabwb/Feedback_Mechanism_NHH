@@ -1,23 +1,64 @@
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"></script>
+
+<link rel="stylesheet" href="fb-style.css">
+
 <script type="text/javascript">
 	function feedback(){
 	    $("#widget").show();
 	    $("#fb-btn").hide();
 	}
 </script>
-<div id="widget" class="fb-div" class="form-group"> 
 
-	<div class="form-group">
-		<label for="comment1">Please provide us feedback</label>
-		<hr>
-	  	<label for="comment1">How was your experience?:</label>
-	  	<textarea class="form-control" rows="5" id="comment1"></textarea>
-	  	<hr>
-	 	<label for="comment2">How can we improve?:</label>
-	  	<textarea class="form-control" rows="5" id="comment2"></textarea>
+<script type="text/javascript">
+	function feedbackClose(){
+	    $("#widget").hide();
+	    $("#submittedWidget").hide();
+	    $("#fb-btn").show();
+	}
+</script>
+
+<script type="text/javascript">
+	function press_submit(){
+	    $("#widget").hide();
+	    $("#submittedWidget").show();
+	}
+</script>
+
+	<div id="widget" class="fb-div" class="form-group"> 
+		<div class="form-group">
+			<label for="comment1" class="main-label">Please provide us feedback</label>
+
+    		<button id="btn-close" type="button"  class="btn-close" onclick="feedbackClose()"><i class="fa fa-chevron-down" aria-hidden="true">		</i>
+			</button>
+	
+		<br>
+  		<label for="rating" class="sub-label" >Select a Rating: &nbsp</label>
+
+        	<i class="fa fa-smile-o fa-2x" aria-hidden="true" >&nbsp</i> 
+        	<i class="fa fa-meh-o fa-2x" aria-hidden="true">&nbsp</i>
+        	<i class="fa fa-frown-o fa-2x" aria-hidden="true"></i>
+   		<br>
+    	<br>
+
+	  	<label for="question1" class="sub-label">What task were you trying to accomplish on this page?</label>
+	  	<textarea class="form-control" rows="3" id="comment1"></textarea>
+  		<br>
+
+	 	<label for="question2" class="sub-label">How can we improve?</label>
+	  	<textarea class="form-control" rows="3" id="comment2"></textarea>
 	  	<br>
-	  	<button id="submit-btn" type="button" class="btn btn-success"">Submit</button>
-	</div>      
 
+	  	<button id="submit-btn" type="button" class="btn btn-info" onclick="press_submit()">Submit</button>
+	</div>      
 </div>
 
-<button id="fb-btn" type="button" class="btn btn-success" onclick="feedback()">Feedback</button>
+<button id="fb-btn" type="button" class="btn btn-info" onclick="feedback()">Feedback</button>
+
+
+<div id="submittedWidget" class="fb-div" class="form-group"> 
+	<div class="form-group">
+  		<button id="btn-close" type="button" class="btn-close" onclick="feedbackClose()"><i class="fa fa-chevron-down" aria-hidden="true"></i>
+		</button>
+			<p class="main-label">Thank you for your feedback</p>
+	</div>      
+</div>

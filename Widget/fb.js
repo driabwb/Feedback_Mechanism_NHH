@@ -51,7 +51,7 @@ function main() {
         var css2 = $("<link>", { rel: "stylesheet", type: "text/css", href: "bootstrap.css" }).appendTo('head');          
 
         /******* Load HTML *******/
-        var url = "http://localhost:3003/feedback-form.html";
+        var url = "feedback-form.html";
         $.get(url,function(data) {
           $('#fb-container').html(data);
         });
@@ -62,11 +62,14 @@ function main() {
 $(document).mouseup(function (e)
 {
     var container = $("#widget");
+    var submittedContainer = $("#submittedWidget");
 
-    if (!container.is(e.target) // if the target of the click isn't the container...
-        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    if ( (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) && (!submittedContainer.is(e.target) // if the target of the click isn't the container...
+        && submittedContainer.has(e.target).length === 0))// ... nor a descendant of the container
     {
         container.hide();
+        submittedContainer.hide();
         $("#fb-btn").show();
 
     }
