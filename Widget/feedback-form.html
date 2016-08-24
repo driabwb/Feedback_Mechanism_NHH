@@ -1,0 +1,23 @@
+<script type="text/javascript">
+	function feedback(){
+	    $("#widget").show();
+	    $("#fb-btn").hide();
+	}
+</script>
+<div id="widget" class="fb-div" class="form-group"> 
+
+	<div class="form-group">
+		<label for="comment1">Please provide us feedback</label>
+		<hr>
+	  	<label for="comment1">How was your experience?:</label>
+	  	<textarea class="form-control" rows="5" id="comment1"></textarea>
+	  	<hr>
+	 	<label for="comment2">How can we improve?:</label>
+	  	<textarea class="form-control" rows="5" id="comment2"></textarea>
+	  	<br>
+	  	<button id="submit-btn" type="button" class="btn btn-success"">Submit</button>
+	</div>      
+
+</div>
+
+<button id="fb-btn" type="button" class="btn btn-success" onclick="feedback()">Feedback</button>

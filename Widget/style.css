@@ -1,0 +1,8 @@
+/*This style is for webpage only. For feedback style, look into fb-style.css file*/
+
+div.fixed {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+}
