@@ -52,23 +52,6 @@ app.get('/:fileName', function (req, res){
 	res.sendFile(fileName, options);
     });
 
-/*
-This is here a refernce for database calls
-
-db.collection('Test').insert({'name': "Fred", 'colour': "Blue"});
-db.collection('Test').findOne({'name': "Fred"}, function(err, res){
-	if(!err){
-	    console.log(res);
-	}
-    });
-db.collection('Test').remove({'name': "Fred"});
-db.collection('Test').findOne({'name': "Fred"}, function(err, res){
-	if(!err){
-	    console.log(res);
-	}
-    });
-*/
-
 // Start the application listening on port 8080.  In browser localhost:8080/
 app.listen(8080, function () {
 	console.log("Listening on 8080");

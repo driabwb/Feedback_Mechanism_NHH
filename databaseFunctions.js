@@ -8,6 +8,7 @@
 var db = require('mongoskin').db('mongodb://localhost:27017/Test');
 var dbCollection = 'Test';
 var dbPageRatingCollection = "PageRatings";
+var dbTaskQueryCollection = "TaskQueries";
 
 // ---------------------------------------------------------------
 
@@ -48,6 +49,113 @@ exports.addRating = function (rating, webpage, callback){
  */
 exports.getWebsiteRating = function(callback){
     db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': null, 'average': {'$avg': '$rating'}}}], function(err,result){
-	    callback(err, result[0].average);
+	    if(!err){
+		callback(err, result[0].average);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  getWebsiteRatingCounts:
+    This function gets the count of occurances for each rating value accross all pages in the site.
+    On a successful call the function calls the callback with a null error string and an object with 
+      each value as the field and the count in the fields value.
+    On failure the function calls the callback with and error message in err.
+ */
+exports.getWebsiteRatingCounts = function(callback){
+    db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': '$rating', 'count': {'$sum': 1}}}], function(err, result){
+	    if(!err){
+		retObject = {};
+		for(count of result){
+		    retObject[count._id] = count.count;
+		}
+		callback(err, retObject);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  getAllPageRating:
+    This is a helper function for getPageRating which fetches average ratings for all pages in the site
+    On Success the function calls the callback function with a null err string and an object {<page_name>: <rating>}
+    On Failure the function calls the callback function with and error string in err
+ */
+
+var getAllPageRating = function(callback){
+    db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': '$webpage', 'average': {'$avg': '$rating'}}}], function(err, result){
+	    if(!err){
+		retObject = {};
+		for(avgs of result){
+		    retObject[avgs._id] = avgs.average;
+		}
+		callback(err, retObject);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  getPageRatingsForList:
+    This is a helper function for getPageRating which fetches average ratings for the webpages in the pages array
+    On Success the function calls the callback function with a null err string and an object {<page_name>: <rating>}
+    On Failure the function calls the callback function with and error string in err
+ */
+
+var getPageRatingsForList = function(pages, callback){
+    db.collection(dbPageRatingCollection).aggregate([{'$match': { 'webpage': { '$in': pages } } }, {'$group': {'_id': '$webpage', 'average': {'$avg': '$rating'}}}], 
+						    function(err, result){
+							if(!err){
+							    retObject = {};
+							    for(avgs of result){
+								retObject[avgs._id] = avgs.average;
+							    }
+							    callback(err, retObject);
+							}else{
+							    console.log(err);
+							    callback(err, result);
+							}
+						    });
+};
+
+/*
+  getPageRating:
+    This function get the page ratings for any (specified in the pages array) or all pages 
+      (specified with a empty pages array) in the site.
+    On Success the function calls the callback function with a null err string and an object {<page_name>: <rating>}
+    On Failure the function calls the callback function with and error string in err
+ */
+
+exports.getPageRating = function(pages, callback){
+    if(0 === pages.length){
+	getAllPageRating(callback);
+    }else{
+	getPageRatingsForList(pages, callback);
+    }
+};
+
+/*
+  addTaskQuery:
+    This function takes two strings (already sanitized) and attempts to add them to the Database
+    On Success the function calls the callback with a null err and the inserted object in result.
+    On Failure the function calls the callback with an error string in err. 
+ */
+exports.addTaskQuery = function(task, comment, callback){
+    db.collection(dbTaskQueryCollection).insert({'task': task, 'comment': comment}, function(err, result){
+	    if(!err){
+		retObject = {};
+		retObject.task = result.ops[0].task;
+		retObject.comment = result.ops[0].comment;
+		callback(err, retObject);
+	    }else{
+		callback(err, result);
+	    }
 	});
 };
