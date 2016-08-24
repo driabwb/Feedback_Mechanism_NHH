@@ -49,10 +49,36 @@ exports.addRating = function (rating, webpage, callback){
  */
 exports.getWebsiteRating = function(callback){
     db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': null, 'average': {'$avg': '$rating'}}}], function(err,result){
-	    callback(err, result[0].average);
+	    if(!err){
+		callback(err, result[0].average);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
 	});
 };
 
+/*
+  getWebsiteRatingCounts:
+    This function gets the count of occurances for each rating value accross all pages in the site.
+    On a successful call the function calls the callback with a null error string and an object with 
+      each value as the field and the count in the fields value.
+    On failure the function calls the callback with and error message in err.
+ */
+exports.getWebsiteRatingCounts = function(callback){
+    db.collection(dbPageRatingCollection).aggregate([{'$group': {'_id': '$rating', 'count': {'$sum': 1}}}], function(err, result){
+	    if(!err){
+		retObject = {};
+		for(count of result){
+		    retObject[count._id] = count.count;
+		}
+		callback(err, retObject);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
 
 /*
   addTaskQuery:

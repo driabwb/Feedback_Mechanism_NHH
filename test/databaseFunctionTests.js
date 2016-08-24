@@ -67,6 +67,30 @@ describe("Database Tests", function(){
 				    });
 			    });
 		    });
+		describe("Rating Counts for the whole website", function(){
+			before(function(done){
+				// This clears the entire database
+				db.collection(dbPageRatingCollection).remove({});
+				// Add some test ratings
+				db.collection(dbPageRatingCollection).insert([{'webpage': "xkcd", 'rating': 5}, 
+									      {'webpage': "xkcd", 'rating': 4},
+									      {'webpage': "smbc", 'rating': 2},
+									      {'webpage': "smbc", 'rating': 4},
+									      {'webpage': "berk", 'rating': 2},
+									      {'webpage': "berk", 'rating': 1},
+									      {'webpage': "smbc", 'rating': 1},
+									      {'webpage': "xkcd", 'rating': 3},
+									      {'webpage': "berk", 'rating': 4}], 
+									      function(err,res){done();});
+			    });
+			it("Give back counts for each rating accross all pages.", function(done){
+				dbFunc.getWebsiteRatingCounts(function(err, result){
+					assert.isTrue(!err);
+					assert.deepEqual(result, {1: 2, 2: 2, 3: 1, 4: 3, 5: 1});
+					done();
+				    });
+			    });
+		    });
 	    }); // End Rating Tests
 	describe("Task Query Tests", function(){
 		describe("Insertion", function(){
