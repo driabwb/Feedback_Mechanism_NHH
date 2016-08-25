@@ -171,7 +171,7 @@ exports.getTaskQuery = function(quantity, callback){
 		if(!err){
 		    retArray = [];
 		    for(res of result){
-			newObj = {'task': res.task, 'comment': res.comment};
+			newObj = {'task': res.task, 'comment': res.comment, 'webpage': res.webpage};
 			retArray.push(newObj);
 		    }
 		    callback(err, retArray.reverse());
