@@ -31,6 +31,36 @@
 	}
 </script>
 
+<script type="text/javascript">
+	function press_happy(){
+	reset_white()
+	$('.fa-smile-o').css("color","#32CD32");
+	}
+</script>
+
+<script type="text/javascript">
+	function press_meh(){
+	reset_white()
+	$('.fa-meh-o').css("color","#FFFF00");
+	}
+</script>
+
+<script type="text/javascript">
+	function press_frown(){
+	reset_white()
+	$('.fa-frown-o').css("color","#FF0000");
+	}
+</script>
+
+<script type="text/javascript">
+	function reset_white(){
+	$('.fa-smile-o').css("color","black");
+	$('.fa-meh-o').css("color","black");
+	$('.fa-frown-o').css("color","black");
+	}
+</script>
+
+
 	<div id="widget" class="fb-div" class="form-group"> 
 		<div class="form-group">
 			<label for="comment1" class="main-label">Please provide us feedback</label>
@@ -39,24 +69,22 @@
 			</button>
 	
 		<br>
-  		<label for="rating" class="sub-label" >Select a Rating: &nbsp</label>
+		<br>
+  		<label for="rating" class="sub-label" >Select a rating: &nbsp</label>
 
-        	<i class="fa fa-smile-o fa-2x" aria-hidden="true" >&nbsp</i> 
-        	<i class="fa fa-meh-o fa-2x" aria-hidden="true">&nbsp</i>
-        	<i class="fa fa-frown-o fa-2x" aria-hidden="true"></i>
+        	<i class="fa fa-smile-o fa-2x" aria-hidden="true" onclick="press_happy()">&nbsp</i> 
+        	<i class="fa fa-meh-o fa-2x" aria-hidden="true" onclick="press_meh()">&nbsp</i>
+        	<i class="fa fa-frown-o fa-2x" aria-hidden="true" onclick="press_frown()"></i>
    		<br>
     	<br>
 
-	  	<label for="question1" class="sub-label">What task were you trying to accomplish on this page?</label>
+	  	<label for="question1" class="sub-label">How can we improve?</label>
 	  	<textarea class="form-control" rows="3" id="comment1"></textarea>
-  		<br>
-
-	 	<label for="question2" class="sub-label">How can we improve?</label>
-	  	<textarea class="form-control" rows="3" id="comment2"></textarea>
 	  	<br>
 
 	  	<button id="submit-btn" type="button" class="btn btn-info" onclick="press_submit()">Submit</button>
 	</div>      
+</div>
 </div>
 
 <button id="fb-btn" type="button" class="btn btn-info" onclick="feedback()">Feedback</button>
