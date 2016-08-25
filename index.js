@@ -46,8 +46,6 @@ app.post('/addRating', function (req, res){
 			res.send(err);
 		    }
 		});
-	// Should update to send different responses for success/failure.
-	
     });
 
 app.post('/test1', function (req, res){
@@ -64,6 +62,53 @@ app.post('/addTaskQuery', function (req, res){
 	comment = xss(req.body.comment);
 	page = xss(req.get('Referer'));
 	db.addTaskQuery(task, comment, page, function(err, result){
+		if(!err){
+		    res.send(result);
+		}else{
+		    console.log(err);
+		    res.send(err);
+		}
+	    });
+    });
+
+app.post('/getRatingForPages', function(req, res){
+        pages = req.body.pages;
+	sanitizedPages = [];
+	for(page of pages){
+	    sanitizedPages.push(xss(page));
+	}
+	db.getPageRating(sanitizedPages, function(err, result){
+		if(!err){
+		    res.send(result);
+		}else{
+		    console.log(err);
+		    res.send(err);
+		}
+	    });
+    });
+
+app.post('/getTaskCounts', function(req, res){
+	pages = req.body.pages;
+	sanitizedPages = [];
+	for(page of pages){
+	    sanitizedPages.push(xss(page));
+	}
+	db.getTaskCounts(sanitizedPages, function(err, result){
+		if(!err){
+		    res.send(result);
+		}else{
+		    console.log(err);
+		    res.send(err);
+		}
+	    });
+    });
+
+app.post('/getTasks', function(req, res){
+	quantity = req.body.quantity;
+	if(!Number.isInteger(quantity)){
+	    res.send("Error the quantity of Tasks must be an integer.");
+	}
+	db.getTaskQuery(quantity, function(err, result){
 		if(!err){
 		    res.send(result);
 		}else{
