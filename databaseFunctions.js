@@ -161,6 +161,12 @@ exports.addTaskQuery = function(task, comment, page, callback){
 	});
 };
 
+/*
+  getTaskQuery:
+    This function takes a number and returns the last N comments added
+    On Success calls the callback with the comment entries in result as an array of objects
+    On Failure calls the callback with an error string in err
+ */
 exports.getTaskQuery = function(quantity, callback){
     if(0 > quantity){
 	callback("You must request 0 or more task queries", null);
@@ -179,5 +185,60 @@ exports.getTaskQuery = function(quantity, callback){
 		    callback(err, result);
 		}
 	    });
+    }
+};
+
+/*
+  This gets a count of Task/Comment entries for each page in the website
+  On Success calls the callback with the counts in an object in the result variable
+  On Failure calls the callback with an error string in err
+ */
+var getAllTaskCounts = function(callback){
+    db.collection(dbTaskQueryCollection).aggregate([{'$group': { '_id': "$webpage", 'count': { '$sum': 1 } } } ], function(err, result){ 
+	    if(!err){
+		retObject = {};
+		for(count of result){
+		    retObject[count._id] = count.count;
+		}
+		callback(err, retObject);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  This gets a count of Task/Comment entries for each specified page
+  On Success calls the callback with the counts in an object in the result variable
+  On Failure calls the callback with an error string in err
+ */
+var getTaskCountList = function(pages, callback){
+    db.collection(dbTaskQueryCollection).aggregate([{'$match': {'webpage': {'$in': pages } } }, {'$group': { '_id': "$webpage", 'count': { '$sum': 1 } } } ], 
+						   function(err, result){ 
+						       if(!err){
+							   retObject = {};
+							   for(count of result){
+							       retObject[count._id] = count.count;
+							   }
+							   callback(err, retObject);
+						       }else{
+							   console.log(err);
+							   callback(err, result);
+						       }
+						   });
+    
+};
+
+/*
+  This gets a count of Task/Comment entries for each page specified or all pages if given and empty array.
+  On Success calls the callback with the counts in an object in the result variable
+  On Failure calls the callback with an error string in err
+ */
+exports.getTaskCounts = function(pages, callback){
+    if(0 == pages.length){
+	getAllTaskCounts(callback);
+    }else{
+	getTaskCountList(pages, callback);
     }
 };
