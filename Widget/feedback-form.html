@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"></script>
-
-<link rel="stylesheet" href="fb-style.css">
-
 <script type="text/javascript">
 	function feedback(){
 	    $("#widget").show();
@@ -21,6 +17,17 @@
 	function press_submit(){
 	    $("#widget").hide();
 	    $("#submittedWidget").show();
+
+	   	var pathname = window.location.pathname;
+		console.log(pathname);
+		var serverUrl = "http://localhost:8080/addRating";
+		var ratingObj = { 	"rating":1,
+							"webpage": pathname
+						};
+		console.log(ratingObj);
+	    $.post( serverUrl, ratingObj).done(function(res){
+	    	console.log(res);
+	    });
 	}
 </script>
 

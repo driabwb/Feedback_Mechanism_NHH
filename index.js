@@ -17,6 +17,14 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
+// Added this to avoid CORS error
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 // Direction if a GET Request is preformed for the root of the site
 app.get('/', function(req, res){
 	// Redirect root to index.html
@@ -26,16 +34,27 @@ app.get('/', function(req, res){
 // Accept data for a basic page rating
 app.post('/addRating', function (req, res){
 	// Sanitization is expected to be done here validation can be also
+	console.log(req.body);
 	rating = xss(req.body.rating); // Validate that this is a number b/t 1-5
 	page = xss(req.body.webpage); // Validate this is one of our pages?
 	db.addRating(rating, page, function(err, result){
 		    if(!err){
+		    console.log("Success, sending response.");
 			res.send(result);
 		    }else{
 			console.log(err);
 			res.send(err);
 		    }
 		});
+	// Should update to send different responses for success/failure.
+	
+    });
+
+app.post('/test1', function (req, res){
+	// Sanitization is expected to be done here validation can be also
+	console.log(req.body);
+	rating = xss(req.body.rating); // Validate that this is a number b/t 1-5
+	page = xss(req.body.webpage); // Validate this is one of our pages?
 	// Should update to send different responses for success/failure.
 	
     });
