@@ -91,6 +91,8 @@ app.post('/getTaskCounts', function(req, res){
 	pages = req.body.pages;
 	sanitizedPages = [];
 	for(page of pages){
+	    console.log(page);
+	    console.log(xss(page));
 	    sanitizedPages.push(xss(page));
 	}
 	db.getTaskCounts(sanitizedPages, function(err, result){
@@ -104,9 +106,11 @@ app.post('/getTaskCounts', function(req, res){
     });
 
 app.post('/getTasks', function(req, res){
-	quantity = req.body.quantity;
+	quantity = parseInt(req.body.quantity);
 	if(!Number.isInteger(quantity)){
+	    console.log(typeof(quantity));
 	    res.send("Error the quantity of Tasks must be an integer.");
+	    return;
 	}
 	db.getTaskQuery(quantity, function(err, result){
 		if(!err){
@@ -120,6 +124,7 @@ app.post('/getTasks', function(req, res){
 
 app.post('/getTasksByPage', function(req, res){
 	page = xss(req.body.page);
+	console.log("page = " + page);
 	db.getTasksByPage(page, function(err, result){
 		if(!err){
 		    res.send(result);
