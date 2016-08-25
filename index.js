@@ -43,7 +43,8 @@ app.post('/addRating', function (req, res){
 app.post('/addTaskQuery', function (req, res){
 	task = xss(req.body.task);
 	comment = xss(req.body.comment);
-	db.addTaskQuery(task, comment, function(err, result){
+	page = xss(req.get('Referer'));
+	db.addTaskQuery(task, comment, page, function(err, result){
 		if(!err){
 		    res.send(result);
 		}else{

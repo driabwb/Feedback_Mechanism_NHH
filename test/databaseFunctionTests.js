@@ -134,7 +134,7 @@ describe("Database Tests", function(){
 	describe("Task Query Tests", function(){
 		describe("Insertion", function(){
 			it("Can insert an entry", function(done){
-				dbFunc.addTaskQuery("I'm Unit Testing!!!", "My test seems to be failing.", function(err,result){
+				dbFunc.addTaskQuery("I'm Unit Testing!!!", "My test seems to be failing.", "Help Help I'm trapped in a Unit Test Factory.", function(err,result){
 					assert.isTrue(!err);
 					assert.deepEqual(result, {'task': "I'm Unit Testing!!!", 'comment': "My test seems to be failing."});
 					done();
