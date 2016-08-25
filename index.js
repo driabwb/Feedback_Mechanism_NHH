@@ -118,6 +118,18 @@ app.post('/getTasks', function(req, res){
 	    });
     });
 
+app.post('/getTasksByPage', function(req, res){
+	page = xss(req.body.page);
+	db.getTasksByPage(page, function(err, result){
+		if(!err){
+		    res.send(result);
+		}else{
+		    console.log(err);
+		    res.send(err);
+		}
+	    });
+    });
+
 // If a user asks for something with a GET Request try to give it to them from the /static_pages/ directory.
 app.get('/:fileName', function (req, res){
 	// Root specifies where to search for the file

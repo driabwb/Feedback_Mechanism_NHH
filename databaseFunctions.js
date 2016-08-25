@@ -242,3 +242,14 @@ exports.getTaskCounts = function(pages, callback){
 	getTaskCountList(pages, callback);
     }
 };
+
+exports.getTasksByPage = function(page, callback){
+    db.collection(dbTaskQueryCollection).find({'webpage': page}, function(err, result){
+	    if(!err){
+		callback(err, result.op);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
