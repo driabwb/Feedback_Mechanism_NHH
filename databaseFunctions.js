@@ -148,8 +148,8 @@ exports.getPageRating = function(pages, callback){
     On Success the function calls the callback with a null err and the inserted object in result.
     On Failure the function calls the callback with an error string in err. 
  */
-exports.addTaskQuery = function(task, comment, callback){
-    db.collection(dbTaskQueryCollection).insert({'task': task, 'comment': comment}, function(err, result){
+exports.addTaskQuery = function(task, comment, page, callback){
+    db.collection(dbTaskQueryCollection).insert({'task': task, 'comment': comment, 'webpage': page}, function(err, result){
 	    if(!err){
 		retObject = {};
 		retObject.task = result.ops[0].task;
@@ -171,7 +171,7 @@ exports.getTaskQuery = function(quantity, callback){
 		if(!err){
 		    retArray = [];
 		    for(res of result){
-			newObj = {'task': res.task, 'comment': res.comment};
+			newObj = {'task': res.task, 'comment': res.comment, 'webpage': res.webpage};
 			retArray.push(newObj);
 		    }
 		    callback(err, retArray.reverse());
