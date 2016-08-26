@@ -2,15 +2,62 @@
 
 <body>
 
-<h1>This is a test webpage!</h1>
-
+<h1>addRating</h1>
 <form method='post' action='/addRating'>
-  Name: <br>
-  <input type='text' name="WebPage" /><br>
-  Favourite Colour:<br>
-  <input type='text' name="Rating" /><br>
+  Page:<br>
+  <input type='text' name='webpage'>
+  Rating:<br>
+  <input type='number' name='rating'>
+  <input type='submit' value="Submit">
+</form>
+
+<h1>getTasks</h1>
+<form method='post' action='getTasks'>
+  Quantity:<br>
+  <input type='number' name='quantity'>
+  <input type='submit' value="Submit">
+</form>
+
+<h1>getTasksByPage</h1>
+<form method='post' action='/getTasksByPage'>
+  Page to Get:<br>
+  <input type='text' name="page" /><br>
   <input type='submit' value='Submit' />
 </form> 
+
+<h1>getTaskCounts</h1>
+<!-- This script ideally goes in a JS file -->
+<script>
+function getTaskCounts(){
+  var values = [];
+  values.push(document.getElementById("page1").value);
+  values.push(document.getElementById("page2").value);
+  values.push(document.getElementById("page3").value);
+
+  request = new XMLHttpRequest();
+  method = "POST";
+  async = true;
+  url = "http://localhost:8080/getTaskCounts";
+
+  request.onload = function(){
+    document.getElementById("result").value = JSON.parse(request.responseText);
+  };
+
+  request.open(method, url, async);
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.send(values);
+  return false;
+}
+</script
+<form method='post' action='javascript:getTaskCounts()'>
+  <input type='text' id='page1' >
+  <input type='text' id='page2' >
+  <input type='text' id='page3' >
+  <input type='submit' value='Submit' >
+</form>
+
+<textarea id='result'>
+</textarea>
 
 </body>
 

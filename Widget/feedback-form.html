@@ -1,55 +1,113 @@
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"></script>
-
-<link rel="stylesheet" href="fb-style.css">
-
 <script type="text/javascript">
 	function feedback(){
 	    $("#widget").show();
 	    $("#fb-btn").hide();
 	}
-</script>
 
-<script type="text/javascript">
 	function feedbackClose(){
 	    $("#widget").hide();
 	    $("#submittedWidget").hide();
 	    $("#fb-btn").show();
 	}
-</script>
 
-<script type="text/javascript">
+	var ratingNumber = 0; 
+	var smileySelected = false;
+
 	function press_submit(){
-	    $("#widget").hide();
-	    $("#submittedWidget").show();
+		if(smileySelected){
+			$("#widget").hide();
+		    $("#submittedWidget").show();
+
+		   	var pathname = window.location.pathname;
+			console.log(pathname);
+			var server = "http://localhost:8080";
+			var ratingObj = { 	"rating":ratingNumber,
+								"webpage": pathname
+							};
+			console.log("Printing rating");
+			console.log(ratingObj);
+
+			// post ratings
+		    $.post( server+"/addRating", ratingObj).done(function(res){
+		    	//console.log(res);
+		    });
+
+		    // reset the rating number
+		    ratingNumber = 0;
+
+		    var commentObj = {	"comment": $('#comment1').val(),
+						"page": pathname
+					};
+
+			console.log("Printing comment");
+		    console.log(commentObj);
+
+		   	$.post( server+"/addTaskQuery", commentObj).done(function(res){
+		    	//console.log(res);
+		    });
+		    smileySelected = false;
+		    reset_faces();
+		    $('#comment1').val("");
+		}else{
+			console.log("smiley not selected msg");
+			$("#ratePrompt").css('color', 'red');
+			$("#ratePrompt").fadeTo("fast", 0.1);
+			$("#ratePrompt").fadeTo("fast", 1);
+		}    
+	}
+
+	function press_happy(){
+		ratingNumber = 5;
+		smileySelected = true;
+		reset_faces();
+		$('.fa-smile-o').css("color","#32CD32");
+	}
+
+	function press_meh(){
+		ratingNumber = 3;
+		smileySelected = true;
+		reset_faces();
+		$('.fa-meh-o').css("color","#FFFF00");
+	}
+
+	function press_frown(){
+		ratingNumber = 1;
+		smileySelected = true;
+		reset_faces();
+		$('.fa-frown-o').css("color","#FF0000");
+	}
+
+	function reset_faces(){
+		$('.fa-smile-o').css("color","black");
+		$('.fa-meh-o').css("color","black");
+		$('.fa-frown-o').css("color","black");
 	}
 </script>
 
 	<div id="widget" class="fb-div" class="form-group"> 
 		<div class="form-group">
-			<label for="comment1" class="main-label">Please provide us feedback</label>
+			<label for="comment1" class="main-label">What do you think about this page?</label>
 
     		<button id="btn-close" type="button"  class="btn-close" onclick="feedbackClose()"><i class="fa fa-chevron-down" aria-hidden="true">		</i>
 			</button>
 	
 		<br>
-  		<label for="rating" class="sub-label" >Select a Rating: &nbsp</label>
+		<br>
+  		<label for="rating" class="sub-label" id="ratePrompt">Rate this page: &nbsp</label>
 
-        	<i class="fa fa-smile-o fa-2x" aria-hidden="true" >&nbsp</i> 
-        	<i class="fa fa-meh-o fa-2x" aria-hidden="true">&nbsp</i>
-        	<i class="fa fa-frown-o fa-2x" aria-hidden="true"></i>
+        	<i class="fa fa-smile-o fa-2x" aria-hidden="true" onclick="press_happy()">&nbsp</i> 
+        	<i class="fa fa-meh-o fa-2x" aria-hidden="true" onclick="press_meh()">&nbsp</i>
+        	<i class="fa fa-frown-o fa-2x" aria-hidden="true" onclick="press_frown()"></i>
    		<br>
     	<br>
 
-	  	<label for="question1" class="sub-label">What task were you trying to accomplish on this page?</label>
+	  	<label for="question1" class="sub-label">Tell us why:</label>
 	  	<textarea class="form-control" rows="3" id="comment1"></textarea>
-  		<br>
-
-	 	<label for="question2" class="sub-label">How can we improve?</label>
-	  	<textarea class="form-control" rows="3" id="comment2"></textarea>
 	  	<br>
 
 	  	<button id="submit-btn" type="button" class="btn btn-info" onclick="press_submit()">Submit</button>
 	</div>      
+</div>
 </div>
 
 <button id="fb-btn" type="button" class="btn btn-info" onclick="feedback()">Feedback</button>

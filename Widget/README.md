@@ -1,3 +1,4 @@
 Instructions for testing the widget
 
-1. Open index.html in browser.
+1. Run: python server.py
+2. Open http://localhost:8000/index.html/index.html in browser.

@@ -28,6 +28,7 @@ exports.addRating = function (rating, webpage, callback){
     // Do Validation, but not sanitization
     if(1>rating || rating>5){
 	callback("Rating out of range:" + rating.toString(), null);
+	return;
     }
     db.collection(dbPageRatingCollection).insert({'webpage': webpage, 'rating': rating}, function(err, result){
 	    if(!err){
@@ -147,14 +148,115 @@ exports.getPageRating = function(pages, callback){
     On Success the function calls the callback with a null err and the inserted object in result.
     On Failure the function calls the callback with an error string in err. 
  */
-exports.addTaskQuery = function(task, comment, callback){
-    db.collection(dbTaskQueryCollection).insert({'task': task, 'comment': comment}, function(err, result){
+exports.addTaskQuery = function(comment, page, callback){
+    db.collection(dbTaskQueryCollection).insert({'comment': comment, 'webpage': page}, function(err, result){
 	    if(!err){
 		retObject = {};
-		retObject.task = result.ops[0].task;
 		retObject.comment = result.ops[0].comment;
 		callback(err, retObject);
 	    }else{
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  getTaskQuery:
+    This function takes a number and returns the last N comments added
+    On Success calls the callback with the comment entries in result as an array of objects
+    On Failure calls the callback with an error string in err
+ */
+exports.getTaskQuery = function(quantity, callback){
+    if(0 > quantity){
+	callback("You must request 0 or more task queries", null);
+    }else if(0 == quantity){
+	callback(null, []);
+    }else{
+	db.collection(dbTaskQueryCollection).find().sort( {"_id": -1} ).limit(quantity).toArray(function(err, result){
+		if(!err){
+		    retArray = [];
+		    for(res of result){
+			newObj = {'task': res.task, 'comment': res.comment, 'webpage': res.webpage};
+			retArray.push(newObj);
+		    }
+		    callback(err, retArray.reverse());
+		}else{
+		    callback(err, result);
+		}
+	    });
+    }
+};
+
+/*
+  This gets a count of Task/Comment entries for each page in the website
+  On Success calls the callback with the counts in an object in the result variable
+  On Failure calls the callback with an error string in err
+ */
+var getAllTaskCounts = function(callback){
+    db.collection(dbTaskQueryCollection).aggregate([{'$group': { '_id': "$webpage", 'count': { '$sum': 1 } } } ], function(err, result){ 
+	    if(!err){
+		retObject = {};
+		for(count of result){
+		    retObject[count._id] = count.count;
+		}
+		callback(err, retObject);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
+
+/*
+  This gets a count of Task/Comment entries for each specified page
+  On Success calls the callback with the counts in an object in the result variable
+  On Failure calls the callback with an error string in err
+ */
+var getTaskCountList = function(pages, callback){
+    db.collection(dbTaskQueryCollection).aggregate([{'$match': {'webpage': {'$in': pages } } }, {'$group': { '_id': "$webpage", 'count': { '$sum': 1 } } } ], 
+						   function(err, result){ 
+						       if(!err){
+							   retObject = {};
+							   for(count of result){
+							       retObject[count._id] = count.count;
+							   }
+							   callback(err, retObject);
+						       }else{
+							   console.log(err);
+							   callback(err, result);
+						       }
+						   });
+    
+};
+
+/*
+  This gets a count of Task/Comment entries for each page specified or all pages if given and empty array.
+  On Success calls the callback with the counts in an object in the result variable
+  On Failure calls the callback with an error string in err
+ */
+exports.getTaskCounts = function(pages, callback){
+    if(0 == pages.length){
+	getAllTaskCounts(callback);
+    }else{
+	getTaskCountList(pages, callback);
+    }
+};
+
+/*
+  getTasksByPage:
+    This function gets all Task/Comment entries associated with the specified page.
+    On Success the callback is called with result having an array of the Comments
+    On Failure the callback is called with err having and error string
+ */
+exports.getTasksByPage = function(page, callback){
+    db.collection(dbTaskQueryCollection).find({'webpage': page}).toArray( function(err, result){
+	    if(!err){
+		for(res of result){
+		    delete res._id;
+		}
+		callback(err, result);
+	    }else{
+		console.log(err);
 		callback(err, result);
 	    }
 	});
