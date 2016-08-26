@@ -48,20 +48,13 @@ app.post('/addRating', function (req, res){
 		});
     });
 
-app.post('/test1', function (req, res){
-	// Sanitization is expected to be done here validation can be also
-	console.log(req.body);
-	rating = xss(req.body.rating); // Validate that this is a number b/t 1-5
-	page = xss(req.body.webpage); // Validate this is one of our pages?
-	// Should update to send different responses for success/failure.
-	
-    });
-
 app.post('/addTaskQuery', function (req, res){
-	task = xss(req.body.task);
+	//task = xss(req.body.task);      // task not required, we only have 1 feedback box.
+	console.log("add task query");
+	console.log(req.body);
 	comment = xss(req.body.comment);
-	page = xss(req.get('Referer'));
-	db.addTaskQuery(task, comment, page, function(err, result){
+	page = xss(req.body.page);
+	db.addTaskQuery(comment, page, function(err, result){
 		if(!err){
 		    res.send(result);
 		}else{
