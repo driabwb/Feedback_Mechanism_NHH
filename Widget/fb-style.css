@@ -3,7 +3,7 @@
 .fb-div {
     background-color: #e3e3e3;
     display: none;
-    height: 280px;
+    height: 300px;
     padding-top: 10px;
     padding-left: 10px;
   	padding-right: 10px;
@@ -14,12 +14,14 @@
 
 	right: 5px;
 	position: absolute;
+	bottom: 265px;
 }
 
 .main-label{
 	  font-size: 20px;
 	  font-family: Arial;
 	  font-weight: bold;
+	  
 }
 
 .sub-label{

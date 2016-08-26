@@ -3,17 +3,15 @@
 	    $("#widget").show();
 	    $("#fb-btn").hide();
 	}
-</script>
 
-<script type="text/javascript">
 	function feedbackClose(){
 	    $("#widget").hide();
 	    $("#submittedWidget").hide();
 	    $("#fb-btn").show();
 	}
-</script>
 
-<script type="text/javascript">
+	var ratingNumber = 0; 
+
 	function press_submit(){
 	    $("#widget").hide();
 	    $("#submittedWidget").show();
@@ -21,7 +19,7 @@
 	   	var pathname = window.location.pathname;
 		console.log(pathname);
 		var serverUrl = "http://localhost:8080/addRating";
-		var ratingObj = { 	"rating":1,
+		var ratingObj = { 	"rating":ratingNumber,
 							"webpage": pathname
 						};
 		console.log(ratingObj);
@@ -29,48 +27,42 @@
 	    	console.log(res);
 	    });
 	}
-</script>
 
-<script type="text/javascript">
 	function press_happy(){
-	reset_white()
-	$('.fa-smile-o').css("color","#32CD32");
+		ratingNumber = 1;
+		reset_white()
+		$('.fa-smile-o').css("color","#32CD32");
 	}
-</script>
 
-<script type="text/javascript">
 	function press_meh(){
-	reset_white()
-	$('.fa-meh-o').css("color","#FFFF00");
+		ratingNumber = 3;
+		reset_white()
+		$('.fa-meh-o').css("color","#FFFF00");
 	}
-</script>
 
-<script type="text/javascript">
 	function press_frown(){
-	reset_white()
-	$('.fa-frown-o').css("color","#FF0000");
+		ratingNumber = 5;
+		reset_white()
+		$('.fa-frown-o').css("color","#FF0000");
 	}
-</script>
 
-<script type="text/javascript">
 	function reset_white(){
-	$('.fa-smile-o').css("color","black");
-	$('.fa-meh-o').css("color","black");
-	$('.fa-frown-o').css("color","black");
+		$('.fa-smile-o').css("color","black");
+		$('.fa-meh-o').css("color","black");
+		$('.fa-frown-o').css("color","black");
 	}
 </script>
-
 
 	<div id="widget" class="fb-div" class="form-group"> 
 		<div class="form-group">
-			<label for="comment1" class="main-label">Please provide us feedback</label>
+			<label for="comment1" class="main-label">What do you think about this page?</label>
 
     		<button id="btn-close" type="button"  class="btn-close" onclick="feedbackClose()"><i class="fa fa-chevron-down" aria-hidden="true">		</i>
 			</button>
 	
 		<br>
 		<br>
-  		<label for="rating" class="sub-label" >Select a rating: &nbsp</label>
+  		<label for="rating" class="sub-label" >Rate this page: &nbsp</label>
 
         	<i class="fa fa-smile-o fa-2x" aria-hidden="true" onclick="press_happy()">&nbsp</i> 
         	<i class="fa fa-meh-o fa-2x" aria-hidden="true" onclick="press_meh()">&nbsp</i>
@@ -78,7 +70,7 @@
    		<br>
     	<br>
 
-	  	<label for="question1" class="sub-label">How can we improve?</label>
+	  	<label for="question1" class="sub-label">Tell us why:</label>
 	  	<textarea class="form-control" rows="3" id="comment1"></textarea>
 	  	<br>
 

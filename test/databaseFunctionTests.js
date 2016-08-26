@@ -250,6 +250,43 @@ describe("Database Tests", function(){
 				    });
 			    });
 		    });
+		describe("Get Tasks By Page", function(){
+			before(function(done){
+				db.collection(dbTaskQueryCollection).remove({});
+				db.collection(dbTaskQueryCollection).insert([{'task': "I'm Unit Testing!!!", 'comment': "My test seems to be failing.", 'webpage': "Help Help I'm stuck in a Unit Test Factory"},
+									     {'task': "Test2", 'comment': "Yipee ki-yay", 'webpage': "Jenny don't"},
+									     {'task': "Look Ma no honds", 'comment': "and all our yesterdays", 'webpage': "change"},
+									     {'task': "She should have died", 'comment': "have lighted fools", 'webpage': "your"},
+									     {'task': "hereafter there would", 'comment': "the way to dusty", 'webpage': "number"},
+									     {'task': "have been time for ", 'comment': "death out out brief", 'webpage': "8675"},
+									     {'task': "such a word tomorrow and", 'comment': "candle life is but", 'webpage': "309"},
+									     {'task': "tomorrow and tomorrow", 'comment': "a walking shadow", 'webpage': "8675"},
+									     {'task': "creeps in this petty", 'comment': "a poor player's that", 'webpage': "309"},
+									     {'task': "pace from day to day", 'comment': "struts and frets his hour", 'webpage': "8675"},
+									     {'task': "to the last syllable", 'comment': "upon the stage and then is heard no more", 'webpage': "309"},
+									     {'task': "of recorded time", 'comment': "it is a tale told by and idiot full of sound and fury signifying nothing. - Shakespeare", 'webpage': "Jenny - Tommy Tutone"}], 
+									    function(err, res){
+										done();
+									    });
+			    });
+			it("can get have 1 entry", function(done){
+				dbFunc.getTasksByPage('change', function(err, result){
+					assert.isTrue(!err);
+					assert.sameDeepMembers(result, [{'task': "Look Ma no honds", 'comment': "and all our yesterdays", 'webpage': "change"}]);
+					done();
+				    });
+			    });
+			it("can have multiple entries", function(done){
+				dbFunc.getTasksByPage('8675', function(err, result){
+					assert.isTrue(!err);
+					assert.sameDeepMembers(result, [{'task': "pace from day to day", 'comment': "struts and frets his hour", 'webpage': "8675"}, 
+									{'task': "tomorrow and tomorrow", 'comment': "a walking shadow", 'webpage': "8675"},
+									{'task': "have been time for ", 'comment': "death out out brief", 'webpage': "8675"}
+									]);
+					done();
+				    });
+			    });
+		    });
 	    });// End Task Query Tests
 //-------------------------------------------------------------
 // End Database Tests

@@ -242,3 +242,23 @@ exports.getTaskCounts = function(pages, callback){
 	getTaskCountList(pages, callback);
     }
 };
+
+/*
+  getTasksByPage:
+    This function gets all Task/Comment entries associated with the specified page.
+    On Success the callback is called with result having an array of the Comments
+    On Failure the callback is called with err having and error string
+ */
+exports.getTasksByPage = function(page, callback){
+    db.collection(dbTaskQueryCollection).find({'webpage': page}).toArray( function(err, result){
+	    if(!err){
+		for(res of result){
+		    delete res._id;
+		}
+		callback(err, result);
+	    }else{
+		console.log(err);
+		callback(err, result);
+	    }
+	});
+};
