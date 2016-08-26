@@ -90,6 +90,7 @@ app.post('/getRatingForPages', function(req, res){
 app.post('/getTaskCounts', function(req, res){
 	pages = req.body.pages;
 	sanitizedPages = [];
+	console.log(pages);
 	for(page of pages){
 	    console.log(page);
 	    console.log(xss(page));
