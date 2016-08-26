@@ -91,3 +91,89 @@ function initializeFeedback(ele) {
 // }
 
 // feedback.initialize(ele)
+
+
+    function feedback(){
+        $("#widget").show();
+        $("#fb-btn").hide();
+    }
+
+    function feedbackClose(){
+        $("#widget").hide();
+        $("#submittedWidget").hide();
+        $("#fb-btn").show();
+    }
+
+    var ratingNumber = 0; 
+    var smileySelected = false;
+
+    function press_submit(){
+        if(smileySelected){
+            $("#widget").hide();
+            $("#submittedWidget").show();
+
+            var pathname = window.location.pathname;
+            console.log(pathname);
+            var server = "http://localhost:8080";
+            var ratingObj = {   "rating":ratingNumber,
+                                "webpage": pathname
+                            };
+            console.log("Printing rating");
+            console.log(ratingObj);
+
+            // post ratings
+            $.post( server+"/addRating", ratingObj).done(function(res){
+                //console.log(res);
+            });
+
+            // reset the rating number
+            ratingNumber = 0;
+
+            var commentObj = {  "comment": $('#comment1').val(),
+                        "page": pathname
+                    };
+
+            console.log("Printing comment");
+            console.log(commentObj);
+
+            $.post( server+"/addTaskQuery", commentObj).done(function(res){
+                //console.log(res);
+            });
+            smileySelected = false;
+            reset_faces();
+            $('#comment1').val("");
+            $("#ratePrompt").css('color', 'black');
+        }else{
+            console.log("smiley not selected msg");
+            $("#ratePrompt").css('color', 'red');
+            $("#ratePrompt").fadeTo("fast", 0.1);
+            $("#ratePrompt").fadeTo("fast", 1);
+        }    
+    }
+
+    function press_happy(){
+        ratingNumber = 5;
+        smileySelected = true;
+        reset_faces();
+        $('.fa-smile-o').css("color","#32CD32");
+    }
+
+    function press_meh(){
+        ratingNumber = 3;
+        smileySelected = true;
+        reset_faces();
+        $('.fa-meh-o').css("color","#FFFF00");
+    }
+
+    function press_frown(){
+        ratingNumber = 1;
+        smileySelected = true;
+        reset_faces();
+        $('.fa-frown-o').css("color","#FF0000");
+    }
+
+    function reset_faces(){
+        $('.fa-smile-o').css("color","black");
+        $('.fa-meh-o').css("color","black");
+        $('.fa-frown-o').css("color","black");
+    }
