@@ -46,7 +46,7 @@
 		    	//console.log(res);
 		    });
 		    smileySelected = false;
-		    reset_white();
+		    reset_faces();
 		    $('#comment1').val("");
 		}else{
 			console.log("smiley not selected msg");
@@ -57,27 +57,27 @@
 	}
 
 	function press_happy(){
-		ratingNumber = 1;
+		ratingNumber = 5;
 		smileySelected = true;
-		reset_white();
+		reset_faces();
 		$('.fa-smile-o').css("color","#32CD32");
 	}
 
 	function press_meh(){
 		ratingNumber = 3;
 		smileySelected = true;
-		reset_white();
+		reset_faces();
 		$('.fa-meh-o').css("color","#FFFF00");
 	}
 
 	function press_frown(){
-		ratingNumber = 5;
+		ratingNumber = 1;
 		smileySelected = true;
-		reset_white();
+		reset_faces();
 		$('.fa-frown-o').css("color","#FF0000");
 	}
 
-	function reset_white(){
+	function reset_faces(){
 		$('.fa-smile-o').css("color","black");
 		$('.fa-meh-o').css("color","black");
 		$('.fa-frown-o').css("color","black");
