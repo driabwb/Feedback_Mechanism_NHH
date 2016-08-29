@@ -35,7 +35,7 @@ app.get('/', function(req, res){
 app.post('/addRating', function (req, res){
 	// Sanitization is expected to be done here validation can be also
 	console.log(req.body);
-	rating = xss(req.body.rating); // Validate that this is a number b/t 1-5
+	rating = parseInt(xss(req.body.rating)); // Validate that this is a number b/t 1-5
 	page = xss(req.body.webpage); // Validate this is one of our pages?
 	db.addRating(rating, page, function(err, result){
 		    if(!err){
