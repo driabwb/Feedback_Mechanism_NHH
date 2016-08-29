@@ -79,16 +79,14 @@
                         <!-- content of page -->
                         <center><div class="row">
                         <div class="col-xs-6 col-sm-3 placeholder">
-                            <div id="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;">
-			      <center>
-				<div id="PageRating">4.1</div>  
-				<span class="glyphicon glyphicon-star-empty"></span>
-			    </center>
-			    </div> 
+                            <div id="PageRating" class="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;"><center>4.1  
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            </center>
+                            </div> 
                           <h4>Average Rating</h4>
                         </div>    
                         <div class="col-xs-6 col-sm-3 placeholder">
-                      <div id="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;"><center>23  <span class="glyphicon glyphicon-comment"></span></center></div> 
+                      <div id="TaskCounts" class="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;"><center>23  <span class="glyphicon glyphicon-comment"></span></center></div> 
                       <h4>Average Comments</h4>
                     </div>
                     <div class="col-xs-6 col-sm-3 placeholder">
@@ -164,10 +162,19 @@
 
 <script type="text/javascript">
             var thisPage = window.location.href;
-	    $.post("http://localhost:8080/getRatingForPages", {"pages": [thisPage]}).done(function(data){if(!data.hasOwnProperty(thisPage)){
+	    $.post("http://feedback-node-server.herokuapp.com/getRatingForPages", {"pages": [thisPage]}).done(function(data){if(!data.hasOwnProperty(thisPage)){
 	      data[thisPage] = "N/A";
 	    }
 	    $('#PageRating').html(data[thisPage]);
 	    });
+</script>
+    
+<script type="text/javascript">
+        var thisPage = window.location.href;
+    $.post("http://feedback-node-server.herokuapp.com/getTaskCounts", {"pages": [thisPage]}).done(function(data){if(!data.hasOwnProperty(thisPage)){
+      data[thisPage] = "N/A";
+    }
+    $('#TaskCounts').html(data[thisPage]);
+    });
 </script>
 </html>
