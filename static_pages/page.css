@@ -1,0 +1,22 @@
+.placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+}
+.img {
+    vertical-align: middle;
+     border-radius: 50%;
+}
+.round {
+    border-radius: 50%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+#menu {
+    font: default sans-serif;
+    font-size: 40;
+    font-weight: 300;
+}
