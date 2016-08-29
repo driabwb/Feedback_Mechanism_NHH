@@ -65,7 +65,8 @@ app.post('/addTaskQuery', function (req, res){
     });
 
 app.post('/getRatingForPages', function(req, res){
-        pages = req.body.pages;
+    pages = req.body.pages;
+    console.log(req.body.pages);
 	sanitizedPages = [];
 	for(page of pages){
 	    sanitizedPages.push(xss(page));
