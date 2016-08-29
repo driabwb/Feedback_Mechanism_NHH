@@ -25,41 +25,6 @@
             $('#TaskCounts').html(data[thisPage]);
             });
         </script>
-        <script>
-            $(document).ready(function() { $.getScript('http://www.chartjs.org/assets/Chart.js',function(){
-                  var data = {
-                      labels : ["January","February","March","April","May","June","July", "August", "September", "October", "November", "December"],
-                      datasets : [
-                          {
-                              fillColor : "rgba(220,220,220,0.5)",
-                              strokeColor : "rgba(220,220,220,1)",
-                              pointColor : "rgba(220,220,220,1)",
-                              pointStrokeColor : "#fff",
-                              data : [65,59,90,81,56,55,40]
-                          },
-                          {
-                              fillColor : "rgba(151,187,205,0.5)",
-                              strokeColor : "rgba(151,187,205,1)",
-                              pointColor : "rgba(151,187,205,1)",
-                              pointStrokeColor : "#fff",
-                              data : [28,48,40,19,96,27,100]
-                          }
-                      ]
-                  }
-
-                  var options = {
-                      animation: true
-                  };
-
-                  //Get the context of the canvas element we want to select
-                  var c = $('#myChart');
-                  var ct = c.get(0).getContext('2d');
-                  var ctx = document.getElementById("myChart").getContext("2d");
-                  /*********************/
-                  new Chart(ctx).Bar(data,options);
-              })
-            });
-        </script>
     </head>
     <nav class="navbar navbar-static-top navbar-inverse">
               <a href="UXDashboard.html" class="navbar-brand">UI/UX Dashboard</a>
@@ -100,74 +65,49 @@
                           <h4>Average Rating</h4>
                         </div>    
                         <div class="col-xs-6 col-sm-3 placeholder">
-                      <div id="TaskCounts" class="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;"><center>23<span class="glyphicon glyphicon-comment"></span></center></div> 
-                      <h4>Average Comments</h4>
+                      <div></div> 
+                      <h4> </h4>
                     </div>
                     <div class="col-xs-6 col-sm-3 placeholder">
-                        <div class="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;"><center>243  <span class="glyphicon glyphicon-eye-open"></span></center></div> 
-                      <h4>Average Views</h4>
+                        
+                      <div id="TaskCounts" class="menu" style="background-image: url(circle-dashed-6-xxl.png); height: 256px; width: 256px; text-align: center; line-height:256px;"><center>23<span class="glyphicon glyphicon-comment"></span></center></div> 
+                      <h4>Feedback Comments</h4>
                     </div>
                         </div></center>
+                <div class="row marketing">
                     <div class="container">
-                      <h2>Feedback Responses</h2>
-                      <canvas id="myChart" width="400" height="200" class="well"></canvas>
+                      <h2>Word Cloud</h2>
+                      <canvas id="myChart" width="800" height="300" class="well"></canvas>
                     </div>
                     <div class="table-responsive">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Page</th>
-                          <th>Rating</th>
-                          <th>Comment</th>
-                        </tr>
-                      </thead>
+                         <h3>Feedback Comments</h3>
+                    <table id="width" class="table table-striped">
                       <tbody>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>3</td>
                           <td>dolor</td>
                         </tr>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>4</td>
                           <td>adipiscing</td>
                         </tr>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>5</td>
                           <td>odio</td>
                         </tr>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>6</td>
                           <td>cursus</td>
                         </tr>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>4</td>
                           <td>Sed</td>
                         </tr>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>3</td>
                           <td>sem</td>
                         </tr>
                         <tr>
-                          <td>6/14/16</td>
-                          <td>Page 2.2.1</td>
-                          <td>8</td>
                           <td>imperdiet</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
+            </div>
                 </div>
             </div>
         </div>
