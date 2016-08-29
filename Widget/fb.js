@@ -114,7 +114,7 @@ function initializeFeedback(ele) {
 
             var pathname = window.location.pathname;
             console.log(pathname);
-            var server = "https://feedback-node-server.herokuapp.com";
+            var server = "http://localhost:8080";
             var ratingObj = {   "rating":ratingNumber,
                                 "webpage": pathname
                             };
